@@ -1,8 +1,9 @@
 <?php
 
 namespace app\controllers;
+use app\controllers\ItemFactory;
+use app\controllers\OrderFactory;
 use app\models\Item;
-use app\models\Ordertables;
 
 /**
  * 菜品工厂类
@@ -21,14 +22,14 @@ class ItemFactory {
 	}
 	//计算总价
 	public function itemFullPrice($order_id) {
-		$allPrice    = 0;
-		$item        = Item::getinstance();
-		$ordertables = Ordertables::getinstance();
-		$res         = $ordertables->getAll($order_id);
+		$allPrice     = 0;
+		$item         = Item::getinstance();
+		$orderFactory = OrderFactory::getinstance();
+		$res          = $orderFactory->getAll($order_id);
 		// print_r($res);
 		foreach ($res as $value) {
-			$item      = Item::getinstance();
-			$itemPrice = $item->getPrice($value['item_id']);
+			$itemFactory = ItemFactory::getinstance();
+			$itemPrice   = $itemFactory->getPrice($value['item_id']);
 			$allPrice += ((int) ($itemPrice))*((int) ($value['number']));
 		}
 		return $allPrice;
